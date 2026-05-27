@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vladyslav Tomashevskyi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #131c2e;
+            --bg-card-hover: #1c2842;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --border-color: #22314d;
+            --success: #34d399;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-header: rgba(11, 15, 25, 0.8);
+            --bg-tag: rgba(34, 49, 77, 0.4);
+            --bg-badge: rgba(56, 189, 248, 0.1);
+        }
+
+        /* Light theme */
+        body.light-mode {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent: #0ea5e9;
+            --accent-glow: rgba(14, 165, 233, 0.12);
+            --border-color: #e2e8f0;
+            --bg-header: rgba(248, 250, 252, 0.8);
+            --bg-tag: rgba(226, 232, 240, 0.6);
+            --bg-badge: rgba(14, 165, 233, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 60px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Language Switcher */
+        body.lang-en .lang-ua { display: none !important; }
+        body.lang-ua .lang-en { display: none !important; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header / Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-header);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+            transition: var(--transition);
+        }
+
+        .header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .controls-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 6px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+        }
+
+        .theme-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        body.light-mode .sun-icon { display: block; }
+        body.light-mode .moon-icon { display: none; }
+        body:not(.light-mode) .sun-icon { display: none; }
+        body:not(.light-mode) .moon-icon { display: block; }
+
+        .lang-toggle {
+            display: flex;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 4px;
+            border-radius: 30px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 6px 16px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: var(--transition);
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            color: #ffffff;
+        }
+        
+        body:not(.light-mode) .lang-btn.active {
+            color: var(--bg-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 48px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        body.light-mode .hero h1 {
+            background: linear-gradient(to right, #0f172a, #475569);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-item svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Social / Contacts Buttons */
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            background: var(--bg-card-hover);
+            border-color: var(--accent);
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #ffffff;
+            border: none;
+        }
+
+        body:not(.light-mode) .btn-primary {
+            color: var(--bg-main);
+        }
+
+        .btn-primary:hover {
+            background: #7dd3fc;
+            box-shadow: 0 4px 25px rgba(56, 189, 248, 0.3);
+        }
+
+        body.light-mode .btn-primary:hover {
+            background: #0284c7;
+            box-shadow: 0 4px 25px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Dashboard Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 48px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .metric-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+        }
+
+        .metric-val {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+
+        .metric-lbl {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Layout Main/Sidebar */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 32px;
+        }
+
+        @media (max-width: 868px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 { font-size: 2.25rem; }
+        }
+
+        /* Section Styling */
+        section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            animation: fadeInUp 1.2s ease;
+            transition: var(--transition);
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Timeline Experience */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--bg-main);
+            border: 2px solid var(--accent);
+            transition: var(--transition);
+        }
+
+        .timeline-item:hover::before {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .job-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .job-title span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .job-date {
+            font-size: 0.85rem;
+            color: var(--accent);
+            background: var(--bg-badge);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .job-desc {
+            list-style-type: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .job-desc li {
+            position: relative;
+            padding-left: 16px;
+            margin-bottom: 8px;
+        }
+
+        .job-desc li::before {
+            content: "•";
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Achievement blocks */
+        .achievement-item {
+            margin-bottom: 20px;
+        }
+        .achievement-item:last-child {
+            margin-bottom: 0;
+        }
+        .ach-title {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+        .ach-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Skill Pills */
+        .skill-group {
+            margin-bottom: 24px;
+        }
+
+        .skill-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .skill-group h4 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: var(--bg-tag);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.1);
+            transform: scale(1.03);
+        }
+
+        /* Footer Copyright */
+        footer {
+            margin-top: 60px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .job-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .job-date {
+                margin-top: 4px;
+            }
+        }
+    </style>
+</head>
+<body class="lang-en">
+
+    <header>
+        <div class="container header-wrap">
+            <div class="logo"><span>CV</span></div>
+            <div class="controls-wrap">
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <!-- Sun Icon (for Light Mode) -->
+                    <svg class="sun-icon" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.41 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.41 0-1.41l-1.06-1.06zm1.06-12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41zm-12.37 12.37c-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.38.39-1.02 0-1.41z"/></svg>
+                    <!-- Moon Icon (for Dark Mode) -->
+                    <svg class="moon-icon" viewBox="0 0 24 24"><path d="M12.3 22h-.1c-5.5 0-10-4.5-10-10 0-4.8 3.5-8.9 8.3-9.7.7-.1 1.3.4 1.4 1.1.1.7-.4 1.3-1.1 1.4-3.4.6-5.8 3.6-5.8 7.2 0 4.1 3.4 7.5 7.5 7.5 3.6 0 6.6-2.4 7.2-5.8.1-.7.7-1.1 1.4-1.1.7.1 1.2.7 1.1 1.4-.9 4.8-5 8.3-9.9 8.3z"/></svg>
+                </button>
+                <div class="lang-toggle">
+                    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn" onclick="setLang('ua')">UA</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <h1>Vladyslav Tomashevskyi</h1>
+            <div class="subtitle lang-en">Backend / Software Engineer</div>
+            <div class="subtitle lang-ua">Backend / Software Engineer</div>
+            
+            <div class="meta-info">
+                <div class="meta-item">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    <span class="lang-en">Kyiv, Ukraine (Remote / Office)</span>
+                    <span class="lang-ua">Київ, Україна (Remote / Office)</span>
+                </div>
+                <div class="meta-item">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    <span>vladtomash10@gmail.com</span>
+                </div>
+            </div>
+
+            <div class="social-grid">
+                <a href="https://t.me/Vlad_Tomash" target="_blank" class="btn">
+                    Telegram
+                </a>
+                <a href="https://github.com/Tomashevskyi-Vladyslav" target="_blank" class="btn">
+                    GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/vladyslav-tomashevskyi/" target="_blank" class="btn btn-primary">
+                    LinkedIn
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-val">600+</div>
+                <div class="metric-lbl lang-en">LeetCode Tasks Solved</div>
+                <div class="metric-lbl lang-ua">Задач вирішено на LeetCode</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-val">15k</div>
+                <div class="metric-lbl lang-en">RPS Load Handled</div>
+                <div class="metric-lbl lang-ua">Одночасних запитів (FastAPI)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-val">2 SaaS</div>
+                <div class="metric-lbl lang-en">Launched & Monetized</div>
+                <div class="metric-lbl lang-ua">Запущено та монетизовано</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-val">70m</div>
+                <div class="metric-lbl lang-en">Drone Detection Range</div>
+                <div class="metric-lbl lang-ua">Дальність виявлення БПЛА</div>
+            </div>
+        </div>
+
+        <!-- Main Grid Layout -->
+        <div class="main-layout">
+            
+            <!-- Left Column: Summary & Experience -->
+            <div style="display: block;">
+                
+                <section>
+                    <h2 class="section-title">
+                        <span class="lang-en">Summary</span>
+                        <span class="lang-ua">Про мене</span>
+                    </h2>
+                    <p class="lang-en" style="color: var(--text-secondary); font-size: 1rem;">
+                        Backend/Software Developer with robust experience in Python, Node.js/Next.js, and C++. Specializing in building high-load services, process automation, and cryptographic tools. Possess a strong algorithmic background (600+ solved problems on LeetCode) and solid skills in Linux infrastructure, Object-Oriented Programming (OOP), and manual memory management. My goal is to work in the corporate sector on large-scale products. Characterized by high proactivity: ready to take ownership of complex tasks, rapidly master new technologies, and deliver tangible business value, whether through developing new features, optimizing current solutions, or automating routines.
+                    </p>
+                    <p class="lang-ua" style="color: var(--text-secondary); font-size: 1rem;">
+                        Backend/Software Developer із впевненим досвідом роботи з Python, Node.js/Next.js та C++. Спеціалізуюся на створенні високонавантажених сервісів, автоматизації процесів та розробці крипто-інструментів. Маю сильну алгоритмічну базу (600+ вирішених задач на LeetCode) та впевнені навички роботи з Linux-інфраструктурою, об'єктно-орієнтованим програмуванням і ручним керуванням пам'яттю. Моя мета — робота в корпоративному секторі над масштабними продуктами. Відрізняюся високою проактивністю: готовий брати на себе відповідальність за складні завдання, швидко освоювати нові технології та приносити реальну користь бізнесу, будь то розробка нового функціоналу, оптимізація поточних рішень чи автоматизація рутини.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="section-title">
+                        <span class="lang-en">Experience & Projects</span>
+                        <span class="lang-ua">Досвід роботи та проєкти</span>
+                    </h2>
+                    
+                    <div class="timeline">
+                        <!-- Item 1 -->
+                        <div class="timeline-item">
+                            <div class="job-header">
+                                <div class="job-title">
+                                    Founder / Backend Developer 
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 400; margin-top: 2px;">
+                                        SaaS Crypto Ecosystem (Solana/SUI/EVM)
+                                    </div>
+                                </div>
+                                <span class="job-date lang-en">SaaS Product</span>
+                                <span class="job-date lang-ua">SaaS Проєкт</span>
+                            </div>
+                            <ul class="job-desc lang-en">
+                                <li>Developed a high-speed system for detecting and automatically purchasing new tokens across popular blockchain networks.</li>
+                                <li>Achieved minimal latency via WebSocket streaming: execution time from detection to trade ranges between 350–500 ms (plus 400 ms – 2 sec for network confirmation).</li>
+                                <li>Designed database architecture (MySQL) and built a subscription-based SaaS model (13 active users).</li>
+                            </ul>
+                            <ul class="job-desc lang-ua">
+                                <li>Розробив високошвидкісну систему виявлення та автоматичної купівлі нових токенів у популярних блокчейн-мережах.</li>
+                                <li>Забезпечив мінімальну латентність за рахунок WebSocket-стрімінгу: час від виявлення до виконання угоди становить 350–500 мс (плюс 400 мс – 2 сек на підтвердження мережею).</li>
+                                <li>Спроектував архітектуру баз даних (MySQL) та побудував SaaS-модель за підпискою (13 активних користувачів).</li>
+                            </ul>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="timeline-item">
+                            <div class="job-header">
+                                <div class="job-title">
+                                    Backend Developer 
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 400; margin-top: 2px;">
+                                        Data Collection Ecosystem (TG-Scraper-Bot & API)
+                                    </div>
+                                </div>
+                                <span class="job-date lang-en">Commercial</span>
+                                <span class="job-date lang-ua">Комерційний</span>
+                            </div>
+                            <ul class="job-desc lang-en">
+                                <li>Developed a comprehensive scraping ecosystem covering Telegram, X (Twitter), and websites (Repositories: TG-Scraper-Bot, Nitter-Twitter_Contract_Scraper_Bot_1.0, Web-Scraper-Bot).</li>
+                                <li>Created a Telegram bot with pattern matching for Solana/TON private keys and automatic blockchain address verification.</li>
+                                <li>Designed and deployed a FastAPI service capable of handling 15,000 concurrent requests with response degradation under 20 seconds.</li>
+                                <li>Successfully commercialized the product under a lifetime subscription model (15 paying clients).</li>
+                            </ul>
+                            <ul class="job-desc lang-ua">
+                                <li>Розробив комплексну екосистему парсингу, що охоплює Telegram, соціальну мережу X (Twitter) та вебсайти (репозиторії: TG-Scraper-Bot, Nitter-Twitter_Contract_Scraper_Bot_1.0, Web-Scraper-Bot).</li>
+                                <li>Створив Telegram-бот із патерн-матчингом приватних ключів Solana/TON та автоматичною верифікацією адрес у блокчейні.</li>
+                                <li>Спроектував та розгорнув FastAPI-сервіс, який витримує навантаження у 15 000 одночасних запитів із деградацією відгуку не більше 20 сек.</li>
+                                <li>Успешно комерціалізував продукт за моделлю lifetime-підписки (15 клієнтів, які платять).</li>
+                            </ul>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="timeline-item">
+                            <div class="job-header">
+                                <div class="job-title">
+                                    Computer Vision Engineer 
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 400; margin-top: 2px;">
+                                        EDTH Hackathon (Vector-Intercept Project)
+                                    </div>
+                                </div>
+                                <span class="job-date lang-en">Hackathon</span>
+                                <span class="job-date lang-ua">Хакатон</span>
+                            </div>
+                            <ul class="job-desc lang-en">
+                                <li>Collaborated in a 7-person team to design and develop a computer vision system for FPV drone detection integrated into an automatic counter-mechanism (shrapnel).</li>
+                                <li>Deployed a YOLO model on a Jetson Nano edge device, achieving real-time performance of 60–70 FPS.</li>
+                                <li>Curated and preprocessed a dataset of 40,000 images. Achieved an effective detection range of up to 70m with an IR camera and 50m with standard optics.</li>
+                            </ul>
+                            <ul class="job-desc lang-ua">
+                                <li>У команді з 7 осіб спроектував та розробив систему комп'ютерного зору для виявлення FPV-дронів, інтегровану в автоматичний контрмеханізм (шрапнель).</li>
+                                <li>Розгорнув модель YOLO на edge-пристрої Jetson Nano з продуктивністю 60–70 FPS у реальному часі.</li>
+                                <li>Зібрав та підготував датасет із 40 000 зображень. Добився ефективної дальності виявлення до 70 м з ІЧ-камерою та до 50 м зі звичайною оптикою.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="timeline-item">
+                            <div class="job-header">
+                                <div class="job-title">
+                                    Freelance Web Developer
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 400; margin-top: 2px;">
+                                        Commercial Frontend/Fullstack Projects
+                                    </div>
+                                </div>
+                                <span class="job-date lang-en">Freelance</span>
+                                <span class="job-date lang-ua">Фріланс</span>
+                            </div>
+                            <ul class="job-desc lang-en">
+                                <li>Developed 7 commercial web applications using Next.js, including landing pages for crypto projects and full-featured e-commerce stores.</li>
+                                <li>Configured SEO optimization and tuned Core Web Vitals to align with search engine algorithms.</li>
+                                <li>Architected pages for high-load scenarios (one project successfully sustained a peak traffic of 5,000 unique visitors).</li>
+                            </ul>
+                            <ul class="job-desc lang-ua">
+                                <li>Розробив 7 комерційних веб-додатків на базі Next.js, включаючи лендінги для крипто-проєктів та повноцінні інтернет-магазини.</li>
+                                <li>Налаштував SEO-оптимізацію та показники Core Web Vitals під пошукові алгоритми.</li>
+                                <li>Спроектував архітектуру сторінок под високі навантаження (один із проєктів успішно витримав піковий трафік у 5 000 унікальних відвідувачів).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Skills & Key Achievements -->
+            <div style="display: block;">
+                
+                <section style="padding: 24px;">
+                    <h2 class="section-title">
+                        <span class="lang-en">Skills</span>
+                        <span class="lang-ua">Навички</span>
+                    </h2>
+                    
+                    <div class="skill-group">
+                        <h4 class="lang-en">Languages</h4>
+                        <h4 class="lang-ua">Мови</h4>
+                        <div class="skill-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">C++</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-group">
+                        <h4 class="lang-en">Frameworks / Tech</h4>
+                        <h4 class="lang-ua">Фреймворки / Технології</h4>
+                        <div class="skill-tags">
+                            <span class="tag">Node.js</span>
+                            <span class="tag">Next.js</span>
+                            <span class="tag">FastAPI</span>
+                            <span class="tag">aiogram</span>
+                            <span class="tag">YOLO</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-group">
+                        <h4 class="lang-en">Infra & DB</h4>
+                        <h4 class="lang-ua">Інфраструктура та БД</h4>
+                        <div class="skill-tags">
+                            <span class="tag">MySQL</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">Git</span>
+                            <span class="tag">Linux / VPS</span>
+                            <span class="tag">REST API</span>
+                            <span class="tag">WebSocket</span>
+                            <span class="tag">Kubernetes (Basics)</span>
+                            <span class="tag">AWS (Basics)</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-group">
+                        <h4 class="lang-en">Methodologies</h4>
+                        <h4 class="lang-ua">Підходи</h4>
+                        <div class="skill-tags">
+                            <span class="tag">OOP</span>
+                            <span class="tag">Clean Code</span>
+                            <span class="tag">PEP8</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-group">
+                        <h4 class="lang-en">Additional</h4>
+                        <h4 class="lang-ua">Додатково</h4>
+                        <div class="skill-tags">
+                            <span class="tag">English B1+</span>
+                            <span class="tag">AI Tools Optimization</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section style="padding: 24px;">
+                    <h2 class="section-title">
+                        <span class="lang-en">Key Achievements</span>
+                        <span class="lang-ua">Досягнення</span>
+                    </h2>
+                    
+                    <div class="achievement-item">
+                        <div class="ach-title lang-en">Monetization</div>
+                        <div class="ach-title lang-ua">Монетизація</div>
+                        <div class="ach-text lang-en">Independently designed, released, and monetized 2 SaaS solutions (scraping ecosystem and crypto platform).</div>
+                        <div class="ach-text lang-ua">Самостійно розробив від архітектури до релізу та монетизував 2 SaaS-рішення (екосистема парсингу та крипто-платформа).</div>
+                    </div>
+
+                    <div class="achievement-item" style="margin-top: 16px;">
+                        <div class="ach-title lang-en">Algorithmic Base</div>
+                        <div class="ach-title lang-ua">Алгоритми</div>
+                        <div class="ach-text lang-en">Solved over 600 problems on LeetCode, developing advanced skills in algorithm optimization.</div>
+                        <div class="ach-text lang-ua">Вирішив понад 600 задач на LeetCode, напрацювавши сильну навичку оптимізації алгоритмів.</div>
+                    </div>
+
+                    <div class="achievement-item" style="margin-top: 16px;">
+                        <div class="ach-title lang-en">Edge AI</div>
+                        <div class="ach-title lang-ua">Edge AI</div>
+                        <div class="ach-text lang-en">Successfully deployed and optimized a YOLO computer vision model on a Jetson Nano microcomputer for real-time operations.</div>
+                        <div class="ach-text lang-ua">Успішно розгорнув та оптимізував ML-модель комп'ютерного зору (YOLO) на мікрокомп'ютері Jetson Nano для роботи в реальному часі.</div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer with Copywriting -->
+    <footer>
+        <div class="container">
+            <p class="lang-en">&copy; 2026 Vladyslav Tomashevskyi. Built with high performance &amp; clean code. All rights reserved.</p>
+            <p class="lang-ua">&copy; 2026 Владислав Томашевський. Розроблено з високою продуктивністю та чистим кодом. Всі права захищені.</p>
+        </div>
+    </footer>
+
+    <script>
+        function setLang(lang) {
+            if (lang === 'en') {
+                document.body.classList.add('lang-en');
+                document.body.classList.remove('lang-ua');
+            } else {
+                document.body.classList.add('lang-ua');
+                document.body.classList.remove('lang-en');
+            }
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.textContent.toLowerCase() === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        }
+
+        // Apply saved theme preferences on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+        });
+    </script>
+</body>
+</html>
